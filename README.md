@@ -1,10 +1,7 @@
 # flow1-DiplomadoIoT
 Este repositorio contiene el primer flow con NodeRed
 
-## flow1-g12
-Este repositorio contiene el flow 1 de la leccion de nodeRed
-
-## Introducción
+# Introducción
 
 El flow 1 representa el primer ejercicio a realizar con NodeRed. Este ejercicio consiste únicamente en conectar un nodo Inject con un nodo Debug y automatizarlo para que genere un TimeStamp cada 1 segundo. Esta acción permite demostrar el uso de la pestaña Debug.
 
@@ -34,20 +31,69 @@ Para que este flow funcione, debes cumplir con los siguientes requisitos previos
 2. Tener instaldo nodeRed por Docker Compose
 3. Tener el contenedor de NodeRed con el volumen de data activado
 
-### Instrucciones de preparación del entorno
+# Preparacion
+ Inicia el contenedor de docker que contiene a Node-Red con el comando:
+docker start [id_del_contenedor_de_node_red]
 
-Para ejecutar este flow, es necesario lo siguiente
-1. Arrancar el contenedor de NodeRed con el comando
-        
-        docker start $(docker ps -a -q)
+Reemplaza la id_del_contenedor con la del contenedor correspondiente a Node-Red. Si no recuerdas cuál es puedes usar el siguiente comando para ver todos los contenedores.
 
-2. Dirigirse a [localhost:1880](localhost:1880)
-3. Importar el flow desde el repositorio
-4. Hacer clic en el boton Deploy
+docker ps -a
 
-### Instrucciones de operación
+Nota: Si instalaste el contenedor de acurdo con el ejercicio Creación de una Aplicación Multi-Contenedor con Docker la Id será algo como: dockercompose-nodered-1
 
-Para observar el resutlado de este flow, sólo es necesario abrir la pestaña Debug.
+Una vez arrancado Node-Red abre un navegador y entra a la URL localhost:1880
+
+# Nodo Inject
+
+El primer paso de este ejercicio es insertar un nodo inject de la paleta de nodos hacia el editor visual. Este nodo nos premite insertar información arbitraria. Por default regresa una marca de tiempo.
+
+![](nodeRed/inject.png)
+
+Da doble click en el nodo para ver su configuración.
+
+![](nodeRed/configInject.png)
+
+
+
+Verás las siguientes propiedades:
+
+- __Name__: El nombre del nodo que se mostrará en la interfaz
+
+- __msg.payload__: El contenido que regresará el nodo cuando se active (por default es timestamp pero puedes explorar otras opciones)
+
+- __msg.topic__: El tema que regresará el nodo cuando se active
+
+- __Inject once after ___ seconds, then__: Si se activa el nodo correrá al inicio del programa después del tiempo indicado
+
+- __Repeat__: Permite hacer que el nodo se active cada determinado tiempo.
+
+Cierra la configuración del nodo dando click en el área de programación o en el botón cancel.
+
+# Nodo Debug
+
+El nodo debug nos permite mandar mensajes a la consola de depuración ubicada en el panel de información a la derecha de la pantalla. Inserta un nodo debug y conecta su entrada con la salida de timestamp.
+
+![](nodeRed/nodoDebug.png)
+
+# Deploy
+
+ Para ejecutar el programa da click en el botón deploy y abre la consola de depuración en el panel de información (ícono del insecto).
+ 
+ ![](nodeRed/pestanadebug.png)
+
+Para inyectar un mensaje da click en la entrada del nodo inject (el cuadrado azul a la izquierda). Verás que aparecen unos números en la consola de depuración. El tiempo se representa en formato UNIX como el número de segundos desde el primero de enero de 1970.
+
+![](nodeRed/deploy.png)
+
+# Inyectar con un intervalo
+
+Para repetir la inyección de la marca de fecha cada segundo utilizaremos la opción repeat dentro de la configuración de inject. Cambia la opción [código]repeat [termina código] a interval y modifica las casillas de abajo para que digan [código]every 1 seconds [termina código]. Cierra la ventana dando click en el botón “Done”.
+
+![](nodeRed/confirInterval.png)
+
+Vuelve a presionar Deploy y verás que cada segundo aparece una nueva marca de tiempo en la consola de depuración.
+
+![](nodeRed/deployInterval.png)
 
 ## Resultados
 A continuación puede verse una vista previa del resultado de este flow.
